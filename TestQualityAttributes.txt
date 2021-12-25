@@ -1,0 +1,7 @@
+Test Quality Attributes =
+
+1- Readability
+
+2- Maintainability
+
+3- Trustworthiness

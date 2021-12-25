@@ -5,7 +5,12 @@ VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Academy.Domain.Tests", "Academy.Domain.Tests\Academy.Domain.Tests.csproj", "{6B5472BC-5229-4C02-8391-16C6A42F38C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Academy.Domain", "Academy.Domain\Academy.Domain.csproj", "{FCB65B1F-53C5-423A-9E39-64D5FC246612}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Academy.Domain", "Academy.Domain\Academy.Domain.csproj", "{FCB65B1F-53C5-423A-9E39-64D5FC246612}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A11793AF-1D89-48FD-8110-270299EF5E7F}"
+	ProjectSection(SolutionItems) = preProject
+		TestQualityAttributes.txt = TestQualityAttributes.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
