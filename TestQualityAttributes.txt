@@ -1,6 +1,9 @@
 Test Quality Attributes =
 
-1- Readability
+1- Readability:
+a)https://medium.com/@stefanovskyi/unit-test-naming-conventions-dd9208eadbea
+b) Readability of body test method: https://fluentassertions.com/
+* Tests Should Readable for all elements in it ( for example properties or methods or ...)
 
 2- Maintainability
 
