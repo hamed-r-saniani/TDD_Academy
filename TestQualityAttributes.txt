@@ -6,5 +6,9 @@ b) Readability of body test method: https://fluentassertions.com/
 * Tests Should Readable for all elements in it ( for example properties or methods or ...)
 
 2- Maintainability
+a) Imagine we want add a parameter to constructor of our class what Happen to our Tests? we see that our tests are not Maintain.
+to resolve this problem we must use some of Design Patterns that get control Create of our Objects. 
+we use Creational Design Patterns ( we use Builder Design Pattern)  
+Builder Design Pattern best for we have Complex Object and these Objects have Different Presentesion in Different Time.
 
 3- Trustworthiness

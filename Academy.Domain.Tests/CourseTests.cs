@@ -6,15 +6,16 @@ namespace Academy.Domain.Tests
 {
     public class CourseTests
     {
+        CourseTestBuilder courseBuilder = new CourseTestBuilder();
+        private const int id = 1;
+        private const string name = "Tdd & Bdd";
+        private const bool isOnline = true;
+        private const double tuition = 4000;
+        private const string instructor = "Hamed";
         [Fact]
         public void Constructor_ShouldConstructCourseProperly()
-        {
-            const int id = 1;
-            const string name = "Tdd & Bdd";
-            const bool isOnline = true;
-            const double tuition = 4000;
-
-            var course = new Course(id, name, isOnline, tuition);
+        {  
+            var course = courseBuilder.Build(); 
 
             //Assert.Equal(id, course.Id);
             //Assert.Equal(name, course.Name);
@@ -25,17 +26,18 @@ namespace Academy.Domain.Tests
             course.Name.Should().Be(name);
             course.IsOnline.Should().Be(isOnline);
             course.Tuition.Should().Be(tuition);
+            course.Instructor.Should().Be(instructor);
         }
         [Fact]
         public void Constructor_ShouldThrowException_When_NameIsNotProvided()
         {
-            const int id = 1;
-            const string name = "";
-            const bool isOnline = true;
-            const double tuition = 4000;
-
-            Action course = () => new Course(id, name, isOnline, tuition);
+            //Action course = () => new Course(id, name, isOnline, tuition);
             //void course() => new Course(id, name, isOnline, tuition);
+
+            // You Can Do this Too
+            //Action course = () => courseBuilder.WithName("").WithId(1).Withtuition(1451).Build();
+
+            Action course = () => courseBuilder.WithName("").Build();
 
             //Assert.Throws<Exception>((Action) course);
 
@@ -44,17 +46,11 @@ namespace Academy.Domain.Tests
         [Fact]
         public void Constructor_ShouldThrowException_When_TuitionIsNotProvided()
         {
-            const int id = 1;
-            const string name = "Tdd & Bdd";
-            const bool isOnline = true;
-            double tuition = 0;
-
-            Action course = () => new Course(id, name, isOnline, tuition);
+            //Action course = () => new Course(id, name, isOnline, tuition);
             //void course() => new Course(id, name, isOnline, tuition);
 
-            tuition = -1;
-
-            Action course2 = () => new Course(id, name, isOnline, tuition);
+            Action course = () => courseBuilder.Withtuition(0).Build();
+            Action course2 = () => courseBuilder.Withtuition(-1).Build();
 
             //Assert.Throws<ArgumentOutOfRangeException>(course);
             //Assert.Throws<ArgumentOutOfRangeException>(course2);

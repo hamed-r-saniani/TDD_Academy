@@ -8,7 +8,8 @@ namespace Academy.Domain
         public string Name { get; internal set; }
         public bool IsOnline { get; internal set; }
         public double Tuition { get; internal set; }
-        public Course(int id, string name, bool isOnline, double tuition)
+        public string Instructor { get; set; }
+        public Course(int id, string name, bool isOnline, double tuition,string instructor)
         {
             CheckNameIsNull(name);
             CheckTuitionIsLessOrEqualZero(tuition);
@@ -16,6 +17,7 @@ namespace Academy.Domain
             Name = name;
             IsOnline = isOnline;
             Tuition = tuition;
+            Instructor = instructor;
         }
 
         private static void CheckTuitionIsLessOrEqualZero(double tuition)
