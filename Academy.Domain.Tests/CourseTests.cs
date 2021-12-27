@@ -27,6 +27,7 @@ namespace Academy.Domain.Tests
             course.IsOnline.Should().Be(isOnline);
             course.Tuition.Should().Be(tuition);
             course.Instructor.Should().Be(instructor);
+            course.Sections.Should().BeEmpty();
         }
         [Fact]
         public void Constructor_ShouldThrowException_When_NameIsNotProvided()
@@ -58,6 +59,24 @@ namespace Academy.Domain.Tests
 
             course.Should().Throw<ArgumentOutOfRangeException>();
             course2.Should().Throw<ArgumentOutOfRangeException>();
+        }
+
+        [Fact]
+        public void AddSection_ShouldAddNewSectionToSections_WhenIdAndNamePassed()
+        {
+            //Arrange
+
+            var courseBuilder = new CourseTestBuilder();
+            var course = courseBuilder.Build();
+            var section = SectionFactory.Create();
+
+            //Act
+            course.AddSection(section);
+
+
+            //Assert
+
+            course.Sections.Should().ContainEquivalentOf(section);
         }
     }
 }

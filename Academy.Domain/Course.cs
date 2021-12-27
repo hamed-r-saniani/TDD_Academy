@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Academy.Domain
 {
@@ -9,6 +10,7 @@ namespace Academy.Domain
         public bool IsOnline { get; internal set; }
         public double Tuition { get; internal set; }
         public string Instructor { get; set; }
+        public List<Section> Sections { get; set; }
         public Course(int id, string name, bool isOnline, double tuition,string instructor)
         {
             CheckNameIsNull(name);
@@ -18,6 +20,7 @@ namespace Academy.Domain
             IsOnline = isOnline;
             Tuition = tuition;
             Instructor = instructor;
+            Sections = new List<Section>();
         }
 
         private static void CheckTuitionIsLessOrEqualZero(double tuition)
@@ -30,6 +33,11 @@ namespace Academy.Domain
         {
             if (string.IsNullOrEmpty(name))
                 throw new CourseNameIsInvalidException();
+        }
+
+        public void AddSection(Section section)
+        {
+            this.Sections.Add(section);
         }
     }
 }
