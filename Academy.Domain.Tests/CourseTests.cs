@@ -41,7 +41,8 @@ namespace Academy.Domain.Tests
 
             //Assert.Throws<Exception>((Action) course);
 
-            course.Should().Throw<Exception>();
+            //course.Should().ThrowExactly<CourseNameIsInvalidException>().WithMessage();
+            course.Should().ThrowExactly<CourseNameIsInvalidException>();
         }
         [Fact]
         public void Constructor_ShouldThrowException_When_TuitionIsNotProvided()

@@ -29,7 +29,7 @@ namespace Academy.Domain
         private static void CheckNameIsNull(string name)
         {
             if (string.IsNullOrEmpty(name))
-                throw new Exception();
+                throw new CourseNameIsInvalidException();
         }
     }
 }
