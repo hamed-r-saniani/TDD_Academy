@@ -4,9 +4,14 @@ using Xunit;
 
 namespace Academy.Domain.Tests
 {
-    public class CourseTests
+    public class CourseTests : IDisposable
     {
-        CourseTestBuilder courseBuilder = new CourseTestBuilder();
+        private readonly CourseTestBuilder courseBuilder;
+        public CourseTests() // this constructor run befor run any Fact
+        {
+            // we can have Fresh Fixture here
+            courseBuilder = new CourseTestBuilder();// Fresh Transient Fixture // Implicit(with a Hook of XUnit create Implicit Setup Fixture) // You Can Serach "XUnit Hooks" in Google for more information
+        }
         private const int id = 1;
         private const string name = "Tdd & Bdd";
         private const bool isOnline = true;
@@ -77,6 +82,11 @@ namespace Academy.Domain.Tests
             //Assert
 
             course.Sections.Should().ContainEquivalentOf(section);
+        }
+
+        public void Dispose() // this run after any Fact
+        {
+            // we can write TearDown Code Here (but not nessery in unit tests)
         }
     }
 }
