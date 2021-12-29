@@ -1,4 +1,4 @@
-﻿namespace Academy.Domain.Tests
+﻿namespace Academy.Domain.Tests.Factories
 {
     public class SectionFactory
     {

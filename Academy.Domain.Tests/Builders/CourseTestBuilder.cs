@@ -1,4 +1,4 @@
-﻿namespace Academy.Domain.Tests
+﻿namespace Academy.Domain.Tests.Builders
 {
     public class CourseTestBuilder
     {
@@ -11,7 +11,7 @@
 
         public Course Build()
         {
-            return new Course(id, name, isOnline, tuition,instructor);
+            return new Course(id, name, isOnline, tuition, instructor);
         }
 
         // For Change Fake Data (Chaining Method)

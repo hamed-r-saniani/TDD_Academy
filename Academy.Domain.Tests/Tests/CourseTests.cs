@@ -1,10 +1,14 @@
+using Academy.Domain.Exceptions;
+using Academy.Domain.Tests.Builders;
+using Academy.Domain.Tests.ClassFixtures;
+using Academy.Domain.Tests.Factories;
 using FluentAssertions;
 using System;
 using Xunit;
 
-namespace Academy.Domain.Tests
+namespace Academy.Domain.Tests.Tests
 {
-    public class CourseTests : IDisposable
+    public class CourseTests : IClassFixture<IdentifierFixture> // this interface for XUnit Framework
     {
         private readonly CourseTestBuilder courseBuilder;
         public CourseTests() // this constructor run befor run any Fact
@@ -19,8 +23,10 @@ namespace Academy.Domain.Tests
         private const string instructor = "Hamed";
         [Fact]
         public void Constructor_ShouldConstructCourseProperly()
-        {  
-            var course = courseBuilder.Build(); 
+        {
+            var guid = IdentifierFixture.Id;
+
+            var course = courseBuilder.Build();
 
             //Assert.Equal(id, course.Id);
             //Assert.Equal(name, course.Name);
@@ -37,6 +43,8 @@ namespace Academy.Domain.Tests
         [Fact]
         public void Constructor_ShouldThrowException_When_NameIsNotProvided()
         {
+            var guid = IdentifierFixture.Id;
+
             //Action course = () => new Course(id, name, isOnline, tuition);
             //void course() => new Course(id, name, isOnline, tuition);
 
@@ -84,9 +92,9 @@ namespace Academy.Domain.Tests
             course.Sections.Should().ContainEquivalentOf(section);
         }
 
-        public void Dispose() // this run after any Fact
-        {
-            // we can write TearDown Code Here (but not nessery in unit tests)
-        }
+        //public void Dispose() // this run after any Fact
+        //{
+        //    // we can write TearDown Code Here (but not nessery in unit tests)
+        //}
     }
 }
