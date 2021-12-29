@@ -1,10 +1,16 @@
-﻿using FluentAssertions;
+﻿using Academy.Domain.Tests.CollectionFixture;
+using FluentAssertions;
 using Xunit;
 
 namespace Academy.Domain.Tests
 {
+    [Collection("Database Collection")] // Attribute for XUnit
     public class SectionTests
     {
+        public SectionTests(DatabaseFixture databaseFixture) // XUnit Know this injection automatically and done it
+        {
+        }
+
         [Fact]
         public void Constructor_ShouldConstructCourseProperly()
         {

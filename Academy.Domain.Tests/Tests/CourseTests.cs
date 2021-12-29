@@ -1,6 +1,7 @@
 using Academy.Domain.Exceptions;
 using Academy.Domain.Tests.Builders;
 using Academy.Domain.Tests.ClassFixtures;
+using Academy.Domain.Tests.CollectionFixture;
 using Academy.Domain.Tests.Factories;
 using FluentAssertions;
 using System;
@@ -8,10 +9,11 @@ using Xunit;
 
 namespace Academy.Domain.Tests.Tests
 {
+    [Collection("Database Collection")] // Attribute for XUnit
     public class CourseTests : IClassFixture<IdentifierFixture> // this interface for XUnit Framework
     {
         private readonly CourseTestBuilder courseBuilder;
-        public CourseTests() // this constructor run befor run any Fact
+        public CourseTests(DatabaseFixture databaseFixture) // this constructor run befor run any Fact // when code Achieve here get us DatabaseFixture class
         {
             // we can have Fresh Fixture here
             courseBuilder = new CourseTestBuilder();// Fresh Transient Fixture // Implicit(with a Hook of XUnit create Implicit Setup Fixture) // You Can Serach "XUnit Hooks" in Google for more information
