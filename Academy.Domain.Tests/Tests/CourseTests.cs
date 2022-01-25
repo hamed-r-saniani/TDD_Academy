@@ -1,13 +1,13 @@
 using Academy.Domain.Exceptions;
-using Academy.Domain.Tests.Builders;
-using Academy.Domain.Tests.ClassFixtures;
-using Academy.Domain.Tests.CollectionFixture;
-using Academy.Domain.Tests.Factories;
+using Academy.Domain.Tests.Unit.Builders;
+using Academy.Domain.Tests.Unit.ClassFixtures;
+using Academy.Domain.Tests.Unit.CollectionFixture;
+using Academy.Domain.Tests.Unit.Factories;
 using FluentAssertions;
 using System;
 using Xunit;
 
-namespace Academy.Domain.Tests.Tests
+namespace Academy.Domain.Tests.Unit.Tests
 {
     [Collection("Database Collection")] // Attribute for XUnit
     public class CourseTests : IClassFixture<IdentifierFixture> // this interface for XUnit Framework
@@ -98,5 +98,53 @@ namespace Academy.Domain.Tests.Tests
         //{
         //    // we can write TearDown Code Here (but not nessery in unit tests)
         //}
+
+        [Fact]
+        public void Should_BeEqual_WhenIdIsTheSame()
+        {
+            //arrange
+            const int sameId = 4;
+            var courseBuilder = new CourseTestBuilder();
+            var course1 = courseBuilder.WithId(sameId).Build();
+            var course2 = courseBuilder.WithId(sameId).Build();
+
+            //act
+            var actual = course1.Equals(course2);
+
+            //assert
+            actual.Should().BeTrue();
+            //course1.Should().Be(course2);
+        }
+
+        [Fact]
+        public void Should_NotBeEqual_WhenIdIsNotTheSame()
+        {
+            //arrange
+            const int sameId = 4;
+            var courseBuilder = new CourseTestBuilder();
+            var course1 = courseBuilder.WithId(sameId).Build();
+            var course2 = courseBuilder.WithId(sameId+4).Build();
+
+            //act
+            var actual = course1.Equals(course2);
+
+            //assert
+            actual.Should().BeFalse();
+            //course1.Should().NotBe(course2);
+        }
+
+        [Fact]
+        public void Should_NotBeEqual_WhenSecondObjectIsNull()
+        {
+            //arrange
+            var courseBuilder = new CourseTestBuilder();
+            var course = courseBuilder.Build();
+
+            //act
+            var actual = course.Equals(null);
+
+            //assert
+            actual.Should().BeFalse();
+        }
     }
 }

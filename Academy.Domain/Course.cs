@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Academy.Domain.Exceptions;
+using System;
 using System.Collections.Generic;
 
 namespace Academy.Domain
@@ -38,6 +39,14 @@ namespace Academy.Domain
         public void AddSection(Section section)
         {
             this.Sections.Add(section);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is not Course course)
+                return false;
+
+            return Id == course.Id;
         }
     }
 }

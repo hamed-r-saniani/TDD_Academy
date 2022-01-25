@@ -1,8 +1,8 @@
-﻿using Academy.Domain.Tests.CollectionFixture;
+﻿using Academy.Domain.Tests.Unit.CollectionFixture;
 using FluentAssertions;
 using Xunit;
 
-namespace Academy.Domain.Tests
+namespace Academy.Domain.Tests.Unit.Tests
 {
     [Collection("Database Collection")] // Attribute for XUnit
     public class SectionTests
@@ -21,7 +21,7 @@ namespace Academy.Domain.Tests
 
             //Act (Execute SUT) -> Exercise
 
-            var section = new Section(id,name);
+            var section = new Section(id, name);
 
             //Assert (Verify(Test) SUT) -> Verify
 

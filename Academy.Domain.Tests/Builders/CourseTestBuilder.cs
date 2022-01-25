@@ -1,4 +1,4 @@
-﻿namespace Academy.Domain.Tests.Builders
+﻿namespace Academy.Domain.Tests.Unit.Builders
 {
     public class CourseTestBuilder
     {

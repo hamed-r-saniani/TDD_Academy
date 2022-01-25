@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Academy.Domain.Tests.CollectionFixture
+namespace Academy.Domain.Tests.Unit.CollectionFixture
 {
     public class DatabaseFixture : IDisposable
     {
