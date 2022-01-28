@@ -72,5 +72,20 @@ namespace Academy.Infrastructure.Tests.Unit
             //assert
             actual.Should().BeNull();
         }
+
+        [Fact]
+        public void Should_DeleteCourseFromCourses()
+        {
+            //arrange
+            const int id = 44;
+            var course = _courseTestBuilder.WithId(id).Build();
+            _courseRepository.Create(course);
+
+            //act
+            _courseRepository.Delete(id);
+
+            //assert
+            _courseRepository.Courses.Should().NotContain(course);
+        }
     }
 }
