@@ -1,0 +1,8 @@
+(DOC)
+
+1-Indirect Input = We Have a Component That We Depend On It and Will Get From It a Data and in Test Process Give us Data or Throw Exception.
+2-Indirect Output = Our Test May Be Have Not Result or Not Change Any State That End of It We Should Verify (Assert It) At The End Test Call a Method Like SaveChanges() or Update().
+
+Usually Indirect Inputs, Inputs That we dont Assert On it(dont Verify it) They in process of test just provide data to complete work.
+
+But Indirect Outputs End of Work and thats important verify them(Check that they call or not).
