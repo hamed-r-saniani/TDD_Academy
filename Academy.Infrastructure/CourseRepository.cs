@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Academy.Infrastructure.Tests.Unit
 {
-    public class CourseRepository
+    public class CourseRepository : ICourseRepository
     {
         public List<Course> Courses = new List<Course>()
         {

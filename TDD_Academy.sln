@@ -22,6 +22,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C26A5AC4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Academy.Infrastructure", "Academy.Infrastructure\Academy.Infrastructure.csproj", "{140D4641-930F-47B0-B9AC-270BB95E7AC0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Academy.Application.Tests.Unit", "Academy.Application.Tests.Unit\Academy.Application.Tests.Unit.csproj", "{C28EC919-A749-45CE-8B6B-0F7807700654}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Academy.Application", "Academy.Application\Academy.Application.csproj", "{06240113-A190-44D9-BA57-8E74CF894526}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +48,14 @@ Global
 		{140D4641-930F-47B0-B9AC-270BB95E7AC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{140D4641-930F-47B0-B9AC-270BB95E7AC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{140D4641-930F-47B0-B9AC-270BB95E7AC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C28EC919-A749-45CE-8B6B-0F7807700654}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C28EC919-A749-45CE-8B6B-0F7807700654}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C28EC919-A749-45CE-8B6B-0F7807700654}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C28EC919-A749-45CE-8B6B-0F7807700654}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06240113-A190-44D9-BA57-8E74CF894526}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06240113-A190-44D9-BA57-8E74CF894526}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06240113-A190-44D9-BA57-8E74CF894526}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06240113-A190-44D9-BA57-8E74CF894526}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +65,8 @@ Global
 		{FCB65B1F-53C5-423A-9E39-64D5FC246612} = {8E21A13B-A605-45E1-9E99-91376AC4306A}
 		{0B3394EC-5734-4D3B-AD5C-A50974A1EE7A} = {C26A5AC4-8EDA-47E2-957A-9B8F8AD58C21}
 		{140D4641-930F-47B0-B9AC-270BB95E7AC0} = {8E21A13B-A605-45E1-9E99-91376AC4306A}
+		{C28EC919-A749-45CE-8B6B-0F7807700654} = {C26A5AC4-8EDA-47E2-957A-9B8F8AD58C21}
+		{06240113-A190-44D9-BA57-8E74CF894526} = {8E21A13B-A605-45E1-9E99-91376AC4306A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4135D62D-759A-4E1D-A3CB-92DCA82CCD71}
