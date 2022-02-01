@@ -31,5 +31,10 @@ namespace Academy.Infrastructure.Tests.Unit
         {
             Courses.Remove(GetBy(id));
         }
+
+        public Course GetBy(string name)
+        {
+            return Courses.FirstOrDefault(x=>x.Name == name);
+        }
     }
 }

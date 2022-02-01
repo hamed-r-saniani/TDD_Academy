@@ -87,5 +87,34 @@ namespace Academy.Infrastructure.Tests.Unit
             //assert
             _courseRepository.Courses.Should().NotContain(course);
         }
+
+        [Fact]
+        public void Should_ReturnCourseByName()
+        {
+            //arrange
+            const string tdd = "TDD";
+            var expectedCourse = _courseTestBuilder.WithName(tdd).Build();
+            _courseRepository.Create(expectedCourse);
+
+            //act
+            var actual = _courseRepository.GetBy(tdd);
+
+            //assert
+            actual.Should().Be(expectedCourse);
+            //actual.Name.Should().Be(tdd); //This is Ok Too
+        }
+
+        [Fact]
+        public void Should_ReturnNull_WhenNameNotExists()
+        {
+            //arrange
+            const string bdd = "BDD";
+
+            //act
+            var actual = _courseRepository.GetBy(bdd);
+
+            //assert
+            actual.Should().BeNull();
+        }
     }
 }

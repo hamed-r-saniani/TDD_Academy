@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Academy.Application\Academy.Application.csproj" />
+    <ProjectReference Include="..\Academy.Domain.Tests\Academy.Domain.Tests.Unit.csproj" />
   </ItemGroup>
 
 </Project>

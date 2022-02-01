@@ -1,4 +1,5 @@
 ﻿using Academy.Domain;
+using System;
 
 namespace Academy.Application
 {
@@ -13,6 +14,9 @@ namespace Academy.Application
 
         public int Create(CreateCourseViewModel command)
         {
+            if (_courseRepository.GetBy(command.Name) != null)
+                throw new Exception();
+
             var course = new Course(command.Id, command.Name, command.IsOnline, command.Tuition, command.Instructor);
 
             _courseRepository.Create(course);

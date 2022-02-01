@@ -7,6 +7,7 @@ namespace Academy.Domain
         void Create(Domain.Course course);
         List<Course> GetAll();
         Course GetBy(int id);
+        Course GetBy(string name);
         void Delete(int id);
     }
 }

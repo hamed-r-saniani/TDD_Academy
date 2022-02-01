@@ -1,6 +1,8 @@
 using Academy.Domain;
+using Academy.Domain.Tests.Unit.Builders;
 using FluentAssertions;
 using NSubstitute;
+using System;
 using Xunit;
 
 namespace Academy.Application.Tests.Unit
@@ -54,6 +56,33 @@ namespace Academy.Application.Tests.Unit
 
             //assert
             id.Should().Be(command.Id);
+        }
+
+        [Fact]
+        public void Should_ThrowException_WhenCourseAlreadyExisits()
+        {
+            //arrange
+            var command = new CreateCourseViewModel
+            {
+                Id = 4,
+                Name = "Onion Architecture",
+                IsOnline = true,
+                Tuition = 4444,
+                Instructor = "Hamed"
+            };
+
+            var courseRepository = Substitute.For<ICourseRepository>();
+            var course = new CourseTestBuilder().Build();
+            courseRepository.GetBy(Arg.Any<string>()).Returns(course);
+            //courseRepository.GetAll().Returns();
+            var courseService = new CourseService(courseRepository);
+
+            //act
+            Action actual = () => courseService.Create(command);
+
+
+            //assert
+            actual.Should().Throw<Exception>();
         }
     }
 }
