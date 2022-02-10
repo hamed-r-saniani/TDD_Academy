@@ -1,58 +1,73 @@
 using Academy.Domain;
+using Academy.Domain.Exceptions;
 using Academy.Domain.Tests.Unit.Builders;
 using FluentAssertions;
 using NSubstitute;
 using System;
 using Xunit;
+using Faker;
+using Tynamix.ObjectFiller;
 
 namespace Academy.Application.Tests.Unit
 {
     public class CourseServiceTests
     {
+        private readonly CourseService _courseService;
+        private readonly ICourseRepository _courseRepository;
+        private readonly CourseTestBuilder _courseTestBuilder;
+
+        public CourseServiceTests()
+        {
+            _courseRepository = Substitute.For<ICourseRepository>();
+            //courseRepository.GetAll().Returns();
+            _courseService = new CourseService(_courseRepository);
+            _courseTestBuilder = new CourseTestBuilder();
+        }
+
         [Fact]
         public void Should_CreateANewCourse()
         {
             //arrange
-            var command = new CreateCourseViewModel
-            {
-                Id = 4,
-                Name = "Onion Architecture",
-                IsOnline = true,
-                Tuition = 4444,
-                Instructor = "Hamed"
-            };
-
-            var courseRepository = Substitute.For<ICourseRepository>();
-            //courseRepository.GetAll().Returns();
-            var courseService = new CourseService(courseRepository);
+            CreateCourseViewModel command = SomeCreateCourse();
 
             //act
-            courseService.Create(command);
+            _courseService.Create(command);
 
             //assert
-            courseRepository.Received(1).Create(Arg.Any<Course>()); // we must check that create in repository call or not because create method tests in past sessions so that work well and we just test that create method call or not
+            _courseRepository.Received(1).Create(Arg.Any<Course>()); // we must check that create in repository call or not because create method tests in past sessions so that work well and we just test that create method call or not
             //courseRepository.ReceivedWithAnyArgs().Create(default);
+        }
+
+        private static CreateCourseViewModel SomeCreateCourse()
+        {
+            //return new CreateCourseViewModel
+            //{
+            //    Id = Faker.RandomNumber.Next(1,44),
+            //    Name = "Onion Architecture",
+            //    IsOnline = true,
+            //    Tuition = Faker.RandomNumber.Next(),
+            //    //Instructor = "Hamed"
+            //    Instructor = Faker.Name.FullName()
+            //};
+
+            //return new Filler<CreateCourseViewModel>().Create();
+
+            //objectfiller.net -> site of this Package
+            var filler = new Filler<CreateCourseViewModel>();
+            //filler.Setup().OnProperty(z => z.Tuition).Use(4444);
+            filler.Setup().OnProperty(z => z.Tuition).Use(Faker.RandomNumber.Next(1,4444));
+
+            return filler.Create();
         }
 
         [Fact]
         public void Should_CreateNewCourseAndReturnId()
         {
             //arrange
-            var command = new CreateCourseViewModel
-            {
-                Id = 4,
-                Name = "Onion Architecture",
-                IsOnline = true,
-                Tuition = 4444,
-                Instructor = "Hamed"
-            };
-
-            var courseRepository = Substitute.For<ICourseRepository>();
-            //courseRepository.GetAll().Returns();
-            var courseService = new CourseService(courseRepository);
+            var command = SomeCreateCourse();
 
             //act
-            var id = courseService.Create(command);
+            var id = _courseService.Create(command);
 
             //assert
             id.Should().Be(command.Id);
@@ -62,27 +77,18 @@ namespace Academy.Application.Tests.Unit
         public void Should_ThrowException_WhenCourseAlreadyExisits()
         {
             //arrange
-            var command = new CreateCourseViewModel
-            {
-                Id = 4,
-                Name = "Onion Architecture",
-                IsOnline = true,
-                Tuition = 4444,
-                Instructor = "Hamed"
-            };
+            var command = SomeCreateCourse();
 
-            var courseRepository = Substitute.For<ICourseRepository>();
-            var course = new CourseTestBuilder().Build();
-            courseRepository.GetBy(Arg.Any<string>()).Returns(course);
+            var course = _courseTestBuilder.Build();
+            _courseRepository.GetBy(Arg.Any<string>()).Returns(course);
             //courseRepository.GetAll().Returns();
-            var courseService = new CourseService(courseRepository);
 
             //act
-            Action actual = () => courseService.Create(command);
+            Action actual = () => _courseService.Create(command);
 
 
             //assert
-            actual.Should().Throw<Exception>();
+            actual.Should().Throw<DuplicatedCourseNameException>();
         }
     }
 }
