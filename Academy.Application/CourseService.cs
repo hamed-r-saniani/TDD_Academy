@@ -1,9 +1,10 @@
 ﻿using Academy.Domain;
 using Academy.Domain.Exceptions;
+using System;
 
 namespace Academy.Application
 {
-    public class CourseService
+    public class CourseService : ICourseService
     {
         private readonly ICourseRepository _courseRepository;
 
@@ -22,6 +23,15 @@ namespace Academy.Application
             _courseRepository.Create(course);
 
             return course.Id;
+        }
+
+        public void Edit(EditCourseViewModel command)
+        {
+            if (_courseRepository.GetBy(command.Id) == null)
+                throw new CourseNotExistsException();
+            _courseRepository.Delete(command.Id);
+            var course = new Course(command.Id, command.Name, command.IsOnline, command.Tuition, command.Instructor);
+            _courseRepository.Create(course);
         }
     }
 }

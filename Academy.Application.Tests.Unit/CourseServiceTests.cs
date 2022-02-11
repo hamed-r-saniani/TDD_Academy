@@ -7,6 +7,7 @@ using System;
 using Xunit;
 using Faker;
 using Tynamix.ObjectFiller;
+using NSubstitute.ReturnsExtensions;
 
 namespace Academy.Application.Tests.Unit
 {
@@ -89,6 +90,52 @@ namespace Academy.Application.Tests.Unit
 
             //assert
             actual.Should().Throw<DuplicatedCourseNameException>();
+        }
+
+        [Fact]
+        public void Should_UpdateCourse()
+        {
+            //arrange
+            var command = SomeEditCourse();
+            var course = _courseTestBuilder.Build();
+            _courseRepository.GetBy(command.Id).Returns(course);
+
+            //act
+            _courseService.Edit(command);
+
+            //assert
+            Received.InOrder(() =>    //Order is Important
+            {
+                _courseRepository.Received().Delete(command.Id);
+                _courseRepository.Received().Create(Arg.Any<Course>());
+            });
+        }
+
+        [Fact]
+        public void Should_ThrowException_WhenUpdatingCourseNotExists()
+        {
+            EditCourseViewModel command = SomeEditCourse();
+            _courseRepository.GetBy(command.Id).ReturnsNull();
+
+            //act
+            Action action = () => _courseService.Edit(command);
+
+
+            //assert
+            action.Should().ThrowExactly<CourseNotExistsException>();
+        }
+
+        private static EditCourseViewModel SomeEditCourse()
+        {
+            //arrange
+            return new EditCourseViewModel
+            {
+                Id = Faker.RandomNumber.Next(1, 44),
+                Name = Faker.Lorem.GetFirstWord(),
+                IsOnline = true,
+                Tuition = Faker.RandomNumber.Next(),
+                Instructor = Faker.Name.FullName()
+            };
         }
     }
 }
