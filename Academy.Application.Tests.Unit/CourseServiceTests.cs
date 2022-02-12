@@ -8,6 +8,7 @@ using Xunit;
 using Faker;
 using Tynamix.ObjectFiller;
 using NSubstitute.ReturnsExtensions;
+using System.Collections.Generic;
 
 namespace Academy.Application.Tests.Unit
 {
@@ -136,6 +137,35 @@ namespace Academy.Application.Tests.Unit
                 Tuition = Faker.RandomNumber.Next(),
                 Instructor = Faker.Name.FullName()
             };
+        }
+
+        [Fact]
+        public void Should_DeleteCourse()
+        {
+            //arrange
+            const int id = 4;
+
+            //act
+            _courseService.Delete(id);
+
+            //assert
+            _courseRepository.Received().Delete(id);
+        }
+
+        [Fact]
+        public void Should_GetListOfCourses()
+        {
+            //arrange
+            _courseRepository.GetAll().Returns(new List<Course>());
+
+
+            //act
+            var courses = _courseService.GetAll();
+            
+
+            //assert
+            courses.Should().BeOfType<List<Course>>();
+            _courseRepository.Received().GetAll();
         }
     }
 }

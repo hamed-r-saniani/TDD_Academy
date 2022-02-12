@@ -1,6 +1,7 @@
 ﻿using Academy.Domain;
 using Academy.Domain.Exceptions;
 using System;
+using System.Collections.Generic;
 
 namespace Academy.Application
 {
@@ -32,6 +33,16 @@ namespace Academy.Application
             _courseRepository.Delete(command.Id);
             var course = new Course(command.Id, command.Name, command.IsOnline, command.Tuition, command.Instructor);
             _courseRepository.Create(course);
+        }
+
+        public void Delete(int id)
+        {
+            _courseRepository.Delete(id);
+        }
+
+        public List<Course> GetAll()
+        {
+            return _courseRepository.GetAll();
         }
     }
 }
