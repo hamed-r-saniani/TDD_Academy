@@ -1,0 +1,9 @@
+1-Dummy : SUT Argument
+
+2-Mock : Assert is Against Mock Objects (Indirect Output)
+
+3-Stub : Just For Setup Fixture (Indirect Input) - no assert
+
+4-Spy : More Capable Version Of Stub - can act as an observation point for the indirect outputs
+
+5-Fake : Alternative Implemention of the Same DOC Functionality

@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		Depended On Component.txt = Depended On Component.txt
 		PhaseOfTestMethod.txt = PhaseOfTestMethod.txt
+		Test Doubles.txt = Test Doubles.txt
 		TestQualityAttributes.txt = TestQualityAttributes.txt
 	EndProjectSection
 EndProject
@@ -22,9 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C26A5AC4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Academy.Infrastructure", "Academy.Infrastructure\Academy.Infrastructure.csproj", "{140D4641-930F-47B0-B9AC-270BB95E7AC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Academy.Application.Tests.Unit", "Academy.Application.Tests.Unit\Academy.Application.Tests.Unit.csproj", "{C28EC919-A749-45CE-8B6B-0F7807700654}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Academy.Application.Tests.Unit", "Academy.Application.Tests.Unit\Academy.Application.Tests.Unit.csproj", "{C28EC919-A749-45CE-8B6B-0F7807700654}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Academy.Application", "Academy.Application\Academy.Application.csproj", "{06240113-A190-44D9-BA57-8E74CF894526}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Academy.Application", "Academy.Application\Academy.Application.csproj", "{06240113-A190-44D9-BA57-8E74CF894526}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
