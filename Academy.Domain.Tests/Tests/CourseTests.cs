@@ -13,7 +13,7 @@ namespace Academy.Domain.Tests.Unit.Tests
     public class CourseTests : IClassFixture<IdentifierFixture> // this interface for XUnit Framework //IdentifierFixture call before this test class //if we want use data of IdentifierFixture we must inject it in constructor (another way is static field or property in IdentifierFixture class and without inject in this class use it with name of IdentifierFixture class)
     {
         private readonly CourseTestBuilder courseBuilder;
-        public CourseTests(DatabaseFixture databaseFixture) // this constructor run befor run any Fact // when code Achieve here get us DatabaseFixture class
+        public CourseTests(DatabaseFixture databaseFixture) // this constructor run befor run any Fact // when code Achieve here get us DatabaseFixture class //add DatabaseFixture to use their data
         {
             // we can have Fresh Fixture here
             courseBuilder = new CourseTestBuilder();// Fresh Transient Fixture // Implicit(with a Hook of XUnit create Implicit Setup Fixture) // You Can Serach "XUnit Hooks" in Google for more information
