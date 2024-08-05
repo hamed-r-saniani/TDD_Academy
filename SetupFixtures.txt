@@ -1,0 +1,43 @@
+refers to Setup Phase of Test
+
+-do all work and prerequisite for run SUT
+
+Transient =
+
+mean that is not It is not permanent and will disappear(Disposed)
+
+in example is a object in memory 
+
+Persistent =
+
+store in somewhere(database or memory or...)
+
+in example a user that we create in database(and delete after use) 
+or in memory and share between many test classes
+
+Fresh =
+
+mean create now (for each test create)
+
+Shared =
+
+share between many tests
+
+
+-Combinations of these:
+
+1- Transient Fresh = 
+-In Unit Test
+-Not Teardown
+
+2-Persistent Fresh =
+-Not in Unit Test
+-Have Teardown
+
+3-Persistent Shared =
+-Share between Test suites
+example a id or connectionString that share between many tests
+
+4-Persistent immutable Shared =
+we have a fixture that share between many test and each of test dont allow change it just use it.
+a better practice than Persistent Shared because if we run tests parallel may a test change our Shared Fixture and next test dont want it and failed
