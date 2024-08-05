@@ -41,3 +41,21 @@ example a id or connectionString that share between many tests
 4-Persistent immutable Shared =
 we have a fixture that share between many test and each of test dont allow change it just use it.
 a better practice than Persistent Shared because if we run tests parallel may a test change our Shared Fixture and next test dont want it and failed
+
+
+-Fixture Creation:
+
+1- Inline =
+-Delegated
+
+main that we create manually in where we want use it
+or inline delegated mean that a factory method create it
+
+2- Implicit =
+-Framework Hook:
+1) Constructor and Disposable Method of Test Class
+2) IClassFixture<T>
+3) Collection and ICollectionFixture<T>
+
+
+Framework Hook Create it
