@@ -41,7 +41,7 @@ namespace Academy.Domain
             this.Sections.Add(section);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object obj) //write it for use it by Courses.Should().Contain(...) or Courses.Should().Be(...)
         {
             if (obj is not Course course)
                 return false;

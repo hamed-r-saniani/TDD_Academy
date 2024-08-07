@@ -26,7 +26,7 @@ namespace Academy.Infrastructure.Tests.Unit
             _courseRepository.Create(course);
 
             //assert
-            //repository.Courses.Should().ContainEquivalentOf(course); //Test Equal of MembersName of Two Object and Then MembersValues of Two Object // if two object come from different point this method is uses and we want check MembersValues of Two Object
+            //repository.Courses.Should().ContainEquivalentOf(course); //Test Equal of MembersName of Two Object and Then MembersValues of Two Object // if two object come from different point this method is uses and we want check MembersValues of Two Object // run slowly
             _courseRepository.Courses.Should().Contain(course); //Can Override For Better Performance // Test Reference Of Two Object that Does not work in Database Repository but Work in Local DataStoring // Call Equal Method of Object
 
             // Speed Of Tests is Important to us
