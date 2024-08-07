@@ -7,3 +7,112 @@
 4-Spy : More Capable Version Of Stub - can act as an observation point for the indirect outputs
 
 5-Fake : Alternative Implemention of the Same DOC Functionality
+
+
+
+
+
+
+
+
+
+
+Certainly! These terms are commonly used in unit testing to describe different types of test doubles, which are objects used to simulate the behavior of real objects in your tests. Here’s a simple explanation of each:
+
+### 1. Mocks
+**Definition:**
+- Mocks are objects that register calls they receive so you can verify that interactions happened in a specific order or with specific arguments.
+
+**Key Use:** 
+- Used to verify interactions between objects.
+
+**Example:**
+- Imagine you’re testing a shopping cart system and you want to ensure that when you add an item, a call is made to update the inventory.
+- The mock object verifies that the `UpdateInventory` method was called with the correct parameters.
+
+```csharp
+var mockInventory = new Mock<IInventory>();
+mockInventory.Setup(i => i.Update(It.IsAny<Item>()));
+
+var cart = new ShoppingCart(mockInventory.Object);
+cart.Add(newItem);
+
+mockInventory.Verify(i => i.Update(newItem), Times.Once);
+```
+
+### 2. Fakes
+**Definition:**
+- Fakes are objects with actual implementations, but those implementations are simplified and not suitable for production.
+
+**Key Use:**
+- Often used to replace complex dependencies with simpler versions that have the same interface.
+
+**Example:**
+- You have a database repository interface. Instead of hitting a real database in your unit tests, you create an in-memory fake repository.
+
+```csharp
+public class FakeRepository : IRepository
+{
+    private List<Item> items = new List<Item>();
+    
+    public void Add(Item item)
+    {
+        items.Add(item);
+    }
+
+    public Item Get(int id)
+    {
+        return items.FirstOrDefault(i => i.Id == id);
+    }
+}
+
+var fakeRepo = new FakeRepository();
+fakeRepo.Add(newItem);
+var retrievedItem = fakeRepo.Get(newItem.Id);
+```
+
+### 3. Stubs
+**Definition:**
+- Stubs are objects that provide predefined answers to method calls made during the test.
+
+**Key Use:**
+- Used to feed the tested code with indirect inputs without verification.
+
+**Example:**
+- You want to test a service that calculates discounts based on customer history. You stub out the repository that retrieves the customer’s purchase history to return a specific set of data.
+
+```csharp
+var stubCustomerRepo = new Mock<ICustomerRepository>();
+stubCustomerRepo.Setup(repo => repo.GetPurchases(It.IsAny<int>()))
+                .Returns(new List<Purchase> { new Purchase(), new Purchase() });
+
+var discountService = new DiscountService(stubCustomerRepo.Object);
+var discount = discountService.CalculateDiscount(customerId);
+```
+
+### 4. Dummies
+**Definition:**
+- Dummies are objects passed around but never actually used. They are just placeholders to satisfy method signatures.
+
+**Key Use:**
+- Used to fill in parameters that are required but not essential in the context of the test.
+
+**Example:**
+- You need to pass a logger to a method, but your test doesn’t require any logging.
+
+```csharp
+var dummyLogger = new Mock<ILogger>();
+var service = new SomeService(dummyLogger.Object);
+service.DoSomething(); // The logger is never actually called in this test.
+```
+
+### Summary Comparison
+| **Type**  | **Purpose**                                                | **Typical Use Case**                                    |
+|-----------|-----------------------------------------------------------|---------------------------------------------------------|
+| **Mocks** | Verify interactions with the object                        | Checking method calls and interactions                   |
+| **Fakes** | Provide simplified working implementations                 | Replacing complex dependencies with simpler, real implementations |
+| **Stubs** | Provide predetermined responses                            | Feeding the system with specific data for the test       |
+| **Dummies** | Satisfy method signatures without being used              | Placeholder objects to fulfill parameter requirements   |
+
+###
+By using these different types of test doubles correctly, you can create more focused and reliable unit tests that validate specific behavior without relying on complex dependencies.
