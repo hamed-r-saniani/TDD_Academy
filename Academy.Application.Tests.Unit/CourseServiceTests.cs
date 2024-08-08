@@ -36,7 +36,7 @@ namespace Academy.Application.Tests.Unit
             _courseService.Create(command);
 
             //assert
-            _courseRepository.Received(1).Create(Arg.Any<Course>()); // we must check that create in repository call or not because create method tests in past sessions so that work well and we just test that create method call or not
+            _courseRepository.Received(1).Create(Arg.Any<Course>()); // we must check that create in repository call or not because create method tests in past sessions(in Repository layer and its Tests) so that work well and we just test that create method call or not //Calling this, Test Indirect Output
             //courseRepository.ReceivedWithAnyArgs().Create(default);
         }
 
