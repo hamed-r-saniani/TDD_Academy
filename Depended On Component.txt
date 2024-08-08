@@ -6,3 +6,124 @@
 Usually Indirect Inputs, Inputs That we dont Assert On it(dont Verify it) They in process of test just provide data to complete work.
 
 But Indirect Outputs End of Work and thats important verify them(Check that they call or not).
+
+
+
+
+Hello! I'm doing great, thank you. Let's discuss the concept of "Depended on Component" (DOC) in the context of unit testing.
+
+### What is a Depended on Component (DOC)?
+
+In unit testing, a **Depended on Component (DOC)** is any external component or dependency that your system under test (SUT) interacts with. This concept is essential because, in unit tests, you often want to isolate the SUT from its DOCs to ensure that you are testing the SUT's behavior independently without interference from other components.
+
+### Examples of Depended on Components
+
+DOCs can be:
+1. **External services** (e.g., web services)
+2. **Databases**
+3. **Filesystems or I/O operations**
+4. **Other classes or methods within the same application**
+5. **Third-party libraries**
+
+### Why Isolate DOCs?
+
+Isolating DOCs is crucial for ensuring that your unit tests are:
+1. **Reliable**: They produce the same result every time they run.
+2. **Fast**: They don't rely on external systems, making them faster to execute.
+3. **Focused**: They only test the specific behavior of the SUT, not its interactions with external systems.
+
+### How to Isolate DOCs?
+
+To isolate DOCs, you can use various techniques such as **mocking**, **stubbing**, or **faking**. Mocking libraries like Moq (C#), Mockito (Java), or unittest.mock (Python) provide tools to create controlled substitutes for DOCs.
+
+### Simple Example in C#
+
+Let's use a practical example to illustrate how to isolate DOCs in a unit test. Suppose you have a class `OrderService` that depends on a `PaymentService`.
+
+#### Original Classes
+
+**PaymentService** (DOC):
+```csharp
+public interface IPaymentService
+{
+    bool ProcessPayment(decimal amount);
+}
+
+public class PaymentService : IPaymentService
+{
+    public bool ProcessPayment(decimal amount)
+    {
+        // Simulate a payment processing logic
+        return true;
+    }
+}
+```
+
+**OrderService** (SUT):
+```csharp
+public class OrderService
+{
+    private readonly IPaymentService _paymentService;
+
+    public OrderService(IPaymentService paymentService)
+    {
+        _paymentService = paymentService;
+    }
+
+    public bool PlaceOrder(decimal amount)
+    {
+        // Some order placement logic
+        return _paymentService.ProcessPayment(amount);
+    }
+}
+```
+
+#### Unit Test
+
+In the unit test, we will mock `IPaymentService` to isolate `OrderService`.
+
+**Unit Test with Moq and xUnit**:
+```csharp
+using Moq;
+using Xunit;
+
+public class OrderServiceTests
+{
+    [Fact]
+    public void PlaceOrder_ValidAmount_PaymentProcessed()
+    {
+        // Arrange
+        var mockPaymentService = new Mock<IPaymentService>();
+        mockPaymentService.Setup(p => p.ProcessPayment(It.IsAny<decimal>())).Returns(true);
+
+        var orderService = new OrderService(mockPaymentService.Object);
+
+        // Act
+        var result = orderService.PlaceOrder(100m);
+
+        // Assert
+        Assert.True(result);
+        mockPaymentService.Verify(p => p.ProcessPayment(It.IsAny<decimal>()), Times.Once);
+    }
+}
+```
+
+### Explanation
+
+1. **Arrange**:
+    - We create a mock object for `IPaymentService` using Moq.
+    - We setup the mock to return `true` when `ProcessPayment` is called with any decimal amount.
+
+2. **Act**:
+    - We inject the mock `IPaymentService` into `OrderService`.
+    - We call the `PlaceOrder` method on `OrderService`.
+
+3. **Assert**:
+    - We assert that the result is `true` (indicating the order was placed successfully).
+    - We also verify that the `ProcessPayment` method on the mock `IPaymentService` was called exactly once.
+
+### Conclusion
+
+By mocking the DOC (in this case, `IPaymentService`), we isolate the `OrderService` and focus on testing its `PlaceOrder` method. This ensures that our unit test remains fast, reliable, and focused on the behavior of the SUT.
+
+If you have any more questions or need additional examples, feel free to ask!
