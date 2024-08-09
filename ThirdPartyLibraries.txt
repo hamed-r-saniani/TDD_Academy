@@ -309,3 +309,162 @@ You can always check the latest updates, releases, and compatibility notes on th
 
 
 
+---------------------------------------------------------------------
+Hello! I'd be happy to explain Tynamix ObjectFiller.NET and provide an example.
+
+### What is Tynamix ObjectFiller.NET?
+
+Tynamix ObjectFiller.NET is a .NET library designed to help with generating random test data objects. It automatically populates properties of complex objects with random, yet realistic, data. This can be extremely useful for unit testing, as it allows you to easily create varied test data without having to manually set every property.
+
+### Key Features
+
+- **Ease of Use**: Quickly generate complex objects with minimal setup.
+- **Configuration**: Customize how certain properties are filled.
+- **Extensibility**: Extend the library with your own random data generators (plugins).
+
+### Installation
+
+To install the library, you can use the NuGet Package Manager:
+
+```bash
+Install-Package Tynamix.ObjectFiller
+```
+
+or the .NET CLI:
+
+```bash
+dotnet add package Tynamix.ObjectFiller
+```
+
+### Basic Example
+
+Let's start with a simple example of using Tynamix ObjectFiller.NET to generate test data.
+
+1. **Create a Class**: Define the class that you want to populate with data.
+
+```csharp
+public class Person
+{
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public int Age { get; set; }
+    public DateTime BirthDate { get; set; }
+}
+```
+
+2. **Use ObjectFiller**: Use ObjectFiller to generate an instance of the class with random data.
+
+```csharp
+using System;
+using Tynamix.ObjectFiller;
+
+public class Program
+{
+    public static void Main()
+    {
+        // Create an instance of the Filler class for the Person type
+        var filler = new Filler<Person>();
+
+        // Generate a random Person object
+        Person randomPerson = filler.Create();
+
+        // Output the generated data
+        Console.WriteLine($"FirstName: {randomPerson.FirstName}");
+        Console.WriteLine($"LastName: {randomPerson.LastName}");
+        Console.WriteLine($"Age: {randomPerson.Age}");
+        Console.WriteLine($"BirthDate: {randomPerson.BirthDate}");
+    }
+}
+```
+
+### Customizing Object Creation
+
+You can customize how certain properties are filled using the `Setup` method.
+
+```csharp
+using System;
+using Tynamix.ObjectFiller;
+
+public class Program
+{
+    public static void Main()
+    {
+        // Create an instance of the Filler class for the Person type
+        var filler = new Filler<Person>();
+
+        // Customize the data generation
+        filler.Setup()
+              .OnProperty(p => p.FirstName).Use(new RealNames(NameStyle.FirstName))
+              .OnProperty(p => p.LastName).Use(new RealNames(NameStyle.LastName))
+              .OnProperty(p => p.Age).Use(new IntRange(1, 100))
+              .OnProperty(p => p.BirthDate).Use(new DateTimeRange(DateTime.Now.AddYears(-100), DateTime.Now));
+              
+        // Generate a random Person object
+        Person randomPerson = filler.Create();
+
+        // Output the generated data
+        Console.WriteLine($"FirstName: {randomPerson.FirstName}");
+        Console.WriteLine($"LastName: {randomPerson.LastName}");
+        Console.WriteLine($"Age: {randomPerson.Age}");
+        Console.WriteLine($"BirthDate: {randomPerson.BirthDate}");
+    }
+}
+```
+
+### Example of Advanced Usage
+
+Here is an example of using advanced features like nested objects and collections.
+
+```csharp
+public class Address
+{
+    public string Street { get; set; }
+    public string City { get; set; }
+    public string Country { get; set; }
+}
+
+public class Company
+{
+    public string Name { get; set; }
+    public Address HeadOffice { get; set; }
+    public List<Person> Employees { get; set; }
+}
+
+public class Program
+{
+    public static void Main()
+    {
+        // Filler for Address
+        var addressFiller = new Filler<Address>();
+
+        // Filler for Company
+        var companyFiller = new Filler<Company>();
+
+        // Customize the data generation for Company
+        companyFiller.Setup()
+                     .OnProperty(c => c.Name).Use(new MnemonicString(1, 3))
+                     .OnProperty(c => c.Employees).CreateInstances(10)
+                     .OnType<Address>().Use(addressFiller);
+
+        // Generate a random Company object
+        Company randomCompany = companyFiller.Create();
+
+        // Output the generated data
+        Console.WriteLine($"Company Name: {randomCompany.Name}");
+        Console.WriteLine($"Head Office Street: {randomCompany.HeadOffice.Street}");
+        Console.WriteLine($"Head Office City: {randomCompany.HeadOffice.City}");
+        Console.WriteLine($"Head Office Country: {randomCompany.HeadOffice.Country}");
+        
+        foreach (var employee in randomCompany.Employees)
+        {
+            Console.WriteLine($"Employee: {employee.FirstName} {employee.LastName}, Age: {employee.Age}");
+        }
+    }
+}
+```
+
+### Summary
+
+Tynamix ObjectFiller.NET is a powerful and flexible library for generating random test data in .NET. It simplifies the creation of complex objects filled with realistic data, which can significantly streamline unit testing and other scenarios where varied test data is required.
+
+If you have more specific requirements or need further examples, feel free to ask!
