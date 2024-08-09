@@ -1,15 +1,41 @@
 1-Dummy : SUT Argument
+example: command that we passed to SUT
 
 2-Mock : Assert is Against Mock Objects (Indirect Output)
+examples:
+            _courseRepository = Substitute.For<ICourseRepository>(); //Mock in Cunstructor of Test Calss or in Test Methods
+           
+            //assert
+            _courseRepository.Received(1).Create(Arg.Any<Course>());
 
-3-Stub : Just For Setup Fixture (Indirect Input) - no assert
+            //assert
+            Received.InOrder(() =>    //Order is Important
+            {
+                _courseRepository.Received().Delete(command.Id);
+                _courseRepository.Received().Create(Arg.Any<Course>());
+            });
 
-4-Spy : More Capable Version Of Stub - can act as an observation point for the indirect outputs
+3-Stub : Just For Setup Fixture (Indirect Input) - no assert (Must No Assert on that)
+example:
+           //arrange
+           _courseRepository.GetBy(command.Id).Returns(course);
+
+
+4-Spy : More Capable Version Of Stub - can act as an observation point for the indirect outputs.
+
+Spies are stubs that also record some information based on how they were called. One form of this might be an email service that records how many messages it was sent.
+
+
 
 5-Fake : Alternative Implemention of the Same DOC Functionality
+example:
+           For example we say when create is execute a notification send to another system, now we want this notification dont send so we create another implemention for create and use it.
 
 
+****All Code Examples of Above From CourseServiceTests Class****
 
+
+**https://martinfowler.com/articles/mocksArentStubs.html**
 
 
 
