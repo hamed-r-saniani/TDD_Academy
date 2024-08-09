@@ -17,6 +17,8 @@ examples:
 
 3-Stub : Just For Setup Fixture (Indirect Input) - no assert (Must No Assert on that)
 example:
+           _courseRepository = Substitute.For<ICourseRepository>(); //Mock in Cunstructor of Test Calss or in Test Methods
+
            //arrange
            _courseRepository.GetBy(command.Id).Returns(course);
 

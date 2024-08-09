@@ -8,6 +8,24 @@ Usually Indirect Inputs, Inputs That we dont Assert On it(dont Verify it) They i
 But Indirect Outputs End of Work and thats important verify them(Check that they call or not).
 
 
+example of Indirect Input:
+                           _courseRepository = Substitute.For<ICourseRepository>(); //Mock in Cunstructor of Test Calss or in Test Methods
+
+                           //arrange
+                           _courseRepository.GetBy(command.Id).Returns(course);
+
+example of Indirect Output:
+                           _courseRepository = Substitute.For<ICourseRepository>(); //Mock in Cunstructor of Test Calss or in Test Methods
+           
+                           //assert
+                           _courseRepository.Received(1).Create(Arg.Any<Course>());
+
+                           //assert
+                           Received.InOrder(() =>    //Order is Important
+                            {
+                              _courseRepository.Received().Delete(command.Id);
+                              _courseRepository.Received().Create(Arg.Any<Course>());
+                            });
 
 
 Hello! I'm doing great, thank you. Let's discuss the concept of "Depended on Component" (DOC) in the context of unit testing.
