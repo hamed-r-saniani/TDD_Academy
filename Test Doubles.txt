@@ -116,3 +116,244 @@ service.DoSomething(); // The logger is never actually called in this test.
 
 ###
 By using these different types of test doubles correctly, you can create more focused and reliable unit tests that validate specific behavior without relying on complex dependencies.
+
+-------------------------------------------------------------------------
+
+Certainly! Spy objects are one of the classifications of test doubles used in unit testing. These are objects that record the behavior of the system under test, usually by tracking the interactions such as method calls and the passed arguments.
+
+### Explanation of Spies in Unit Testing
+
+**Spies**:
+- A Spy is a type of test double that not only mimics the real object but also keeps track of the interactions (method calls, arguments passed, etc.) it experienced during the test.
+- Spies are useful when you want to verify that certain methods were called with specific parameters.
+
+### Example of a Spy in xUnit with Moq
+
+Let's walk through an example using `xUnit` and `Moq` libraries in a .NET project. We'll create a simple service interface, a class that uses this service, and a unit test to verify that the method on the service was called.
+
+#### 1. Define the Interface and Class
+
+First, define an interface `INotificationService` and implement a class `OrderProcessor` that uses this service.
+
+```csharp
+public interface INotificationService
+{
+    void SendNotification(string message);
+}
+
+public class OrderProcessor
+{
+    private readonly INotificationService _notificationService;
+
+    public OrderProcessor(INotificationService notificationService)
+    {
+        _notificationService = notificationService;
+    }
+
+    public void ProcessOrder()
+    {
+        // Some order processing logic here...
+
+        // Notify the user
+        _notificationService.SendNotification("Order processed successfully.");
+    }
+}
+```
+
+#### 2. Install Necessary Packages
+
+Ensure that you have `xUnit` and `Moq` packages installed. You can install them via NuGet:
+
+```bash
+dotnet add package xunit
+dotnet add package xunit.runner.visualstudio
+dotnet add package Moq
+```
+
+#### 3. Write Unit Test with a Spy
+
+Now, write a unit test using `xUnit` and `Moq` to verify that `SendNotification` method is called with the correct parameter.
+
+```csharp
+using Moq;
+using Xunit;
+
+public class OrderProcessorTests
+{
+    [Fact]
+    public void ProcessOrder_SendsNotification()
+    {
+        // Arrange
+        var notificationServiceMock = new Moq.Mock<INotificationService>();
+        var orderProcessor = new OrderProcessor(notificationServiceMock.Object);
+
+        // Act
+        orderProcessor.ProcessOrder();
+
+        // Assert
+        notificationServiceMock.Verify(ns => ns.SendNotification("Order processed successfully."), Times.Once);
+    }
+}
+```
+
+### Breakdown of the Test
+
+1. **Arrange**:
+    - Create a mock object of `INotificationService` using Moq.
+    - Create an instance of `OrderProcessor`, passing the mock object as a dependency.
+
+2. **Act**:
+    - Call the `ProcessOrder` method on the `OrderProcessor` instance.
+
+3. **Assert**:
+    - Verify that the `SendNotification` method on the mock `INotificationService` was called exactly once with the argument "Order processed successfully.".
+    - `Times.Once` ensures that this check passes only if the method is called exactly once.
+
+### How Spies Work Here
+
+- The Mock object created by Moq acts as a Spy.
+- It records the interactions, including the method calls and arguments.
+- The `Verify` method is used to assert that the expected interactions occurred.
+
+This example shows how spies can help verify that certain methods were called correctly as part of unit testing, providing confidence that the system behaves as expected.
+
+
+----------------------------------------------------------------
+
+Certainly! Let's delve into the concept of a "Spy" in the context of unit testing, and how you can implement it using xUnit with Moq and NSubstitute.
+
+### What is a Spy in Unit Testing?
+
+In the context of unit testing, a "Spy" is a type of test double that not only records the interactions between the system under test and the dependencies but also allows for verification of those interactions later. It acts like both a mock and a stub:
+
+- **Stub:** Provides predefined responses to method calls made during the test.
+- **Mock:** Verifies that specific interactions (like method calls) were made.
+- **Spy:** Captures and stores method calls and/or arguments so that the interactions can be asserted later.
+
+### Example Using Moq
+
+#### Setup
+
+Moq is a popular mocking library in .NET that allows you to create and use spies.
+
+1. **Install Moq**:
+   ```sh
+   dotnet add package Moq
+   ```
+
+2. **Install xUnit**:
+   ```sh
+   dotnet add package xunit
+   dotnet add package xunit.runner.visualstudio
+   ```
+
+#### Code
+
+Let's assume we have the following service interface and its implementation:
+
+```csharp
+public interface IEmailSender
+{
+    void SendEmail(string to, string subject, string body);
+}
+
+public class NotificationService
+{
+    private readonly IEmailSender _emailSender;
+
+    public NotificationService(IEmailSender emailSender)
+    {
+        _emailSender = emailSender;
+    }
+
+    public void Notify(string message)
+    {
+        _emailSender.SendEmail("user@example.com", "Notification", message);
+    }
+}
+```
+
+Now, we'll write a test to ensure that the `SendEmail` method of `IEmailSender` is called when the `Notify` method is invoked.
+
+```csharp
+using Moq;
+using Xunit;
+
+public class NotificationServiceTests
+{
+    [Fact]
+    public void Notify_ShouldCallSendEmail()
+    {
+        // Arrange
+        var emailSenderMock = new Mock<IEmailSender>();
+        var notificationService = new NotificationService(emailSenderMock.Object);
+
+        // Act
+        notificationService.Notify("Test message");
+
+        // Assert
+        emailSenderMock.Verify(es => es.SendEmail(
+            It.Is<string>(to => to == "user@example.com"),
+            It.Is<string>(subject => subject == "Notification"),
+            It.Is<string>(body => body == "Test message"))
+        );
+    }
+}
+```
+
+In this test, Moq acts as a spy by verifying that `SendEmail` was called with the expected parameters.
+
+### Example Using NSubstitute
+
+#### Setup
+
+NSubstitute is another mocking library for .NET.
+
+1. **Install NSubstitute**:
+   ```sh
+   dotnet add package NSubstitute
+   ```
+
+2. **Install xUnit**:
+   ```sh
+   dotnet add package xunit
+   dotnet add package xunit.runner.visualstudio
+   ```
+
+#### Code
+
+Let's rewrite the above test using NSubstitute.
+
+```csharp
+using NSubstitute;
+using Xunit;
+
+public class NotificationServiceTests
+{
+    [Fact]
+    public void Notify_ShouldCallSendEmail()
+    {
+        // Arrange
+        var emailSender = Substitute.For<IEmailSender>();
+        var notificationService = new NotificationService(emailSender);
+
+        // Act
+        notificationService.Notify("Test message");
+
+        // Assert
+        emailSender.Received().SendEmail(
+            "user@example.com",
+            "Notification",
+            "Test message"
+        );
+    }
+}
+```
+
+In this test, NSubstitute acts as a spy by verifying that `SendEmail` was called with the expected parameters.
+
+### Conclusion
+
+Both Moq and NSubstitute allow you to create spies to verify interactions between your system under test and its dependencies. Moq uses the `Verify` method for this purpose, while NSubstitute uses the `Received` method.
+
+Both approaches can provide strong guarantees that the correct methods are called with the correct parameters, helping you to ensure that your systems are functioning correctly.
